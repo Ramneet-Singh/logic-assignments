@@ -100,23 +100,19 @@ $$
 
 The sequent is valid. **To Show:** $\neg p, p \lor q \vdash q$.
 
-\begin{logicproof}{2}
+\begin{logicproof}{1}
     \neg p                  & premise \\
     p \lor q                & premise \\
     \begin{subproof}
-        \neg q              & assumption \\
-        \begin{subproof}
-            p               & assumption \\
-            \perp           & $\neg$e 4,1
-        \end{subproof}
-        \begin{subproof}
-            q               & assumption \\
-            \perp           & $\neg$e 6,3
-        \end{subproof}
-        \perp               & $\lor$e 2,4-5,6-7
+        p              & assumption \\
+        \perp          & $\neg$e 3,1 \\
+        q              & $\perp$e 4
     \end{subproof}
-    \neg \neg q             & $\neg$i 3-8 \\
-    q                       & $\neg \neg$e 9
+    \begin{subproof}
+        q              & assumption \\
+        q              & copy 6
+    \end{subproof}
+    q                  & $\lor$e 2,3-5,6-7
 \end{logicproof}
 
 ## Part (d)
@@ -307,4 +303,4 @@ Choose the valuation $v$ such that $v(p) = \texttt{T}, v(q) = \texttt{F}, v(r) =
 
 ## Part (d)
 
-Choose the valuation $v$ such that $v(p) = \texttt{T}, v(q) = \texttt{F}, v(r) = \texttt{T}$. Then, since $v(q) = \tt{F}$, we get $v(q \rightarrow r) = \tt{T}$. Since $v(p) = \tt{T}$ and $v(q \rightarrow r) = \tt{T}$, we get $v(p \rightarrow (q \rightarrow r)) = \tt{T}$. So the formula to the left of the $\vdash$ evaluates \texttt{T}. The formula to the right is $p \rightarrow (r \rightarrow q)$. Since $v(r) = \tt{T}$ and $v(q) = \tt{F}$, we get $v(r \rightarrow q) = \tt{F}$. Since $v(p) = \tt{T}$ and $v(r \rightarrow q) = \tt{F}$, we can conclude $v(p \rightarrow (r \rightarrow q)) = \tt{F}$. So the formula to the right of the $\vdash$ evaluates to \texttt{F}. The existence of such a valuation implies that the sequent $p \rightarrow (q \rightarrow r) \vdash p \rightarrow (r \rightarrow q)$ is not valid.
+Choose the valuation $v$ such that $v(p) = \texttt{T}, v(q) = \texttt{F}, v(r) = \texttt{T}$. Then, since $v(q) = \tt{F}$, we get $v(q \rightarrow r) = \tt{T}$. Since $v(p) = \tt{T}$ and $v(q \rightarrow r) = \tt{T}$, we get $v(p \rightarrow (q \rightarrow r)) = \tt{T}$. So the formula to the left of the $\vdash$ evaluates to \texttt{T}. The formula to the right is $p \rightarrow (r \rightarrow q)$. Since $v(r) = \tt{T}$ and $v(q) = \tt{F}$, we get $v(r \rightarrow q) = \tt{F}$. Since $v(p) = \tt{T}$ and $v(r \rightarrow q) = \tt{F}$, we can conclude $v(p \rightarrow (r \rightarrow q)) = \tt{F}$. So the formula to the right of the $\vdash$ evaluates to \texttt{F}. The existence of such a valuation implies that the sequent $p \rightarrow (q \rightarrow r) \vdash p \rightarrow (r \rightarrow q)$ is not valid.
