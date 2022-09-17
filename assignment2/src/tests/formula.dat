@@ -1,0 +1,6 @@
+c CNF formula (p1 or !p2) and (p2 ∨ p3) and (!p1 or !p2 or p3) and (!p3)
+p cnf 3 4
+1 -2 0
+2 3 0
+-1 -2 3 0
+-3 0
