@@ -1,0 +1,6 @@
+c CNF (x1 or x2 or ~x3) and (x3 or x1 or ~x2) and (~x1 or x4) and (x2 or x4 or x3)
+p cnf 4 4
+1 2 -3 4 0
+3 1 -2 0
+-1 4 0
+2 4 3 0
