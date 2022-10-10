@@ -14,16 +14,18 @@ import sys
 Convert the CNF formula F to string in DIMACS format.
 """
 def formulaToString(F : Set[FrozenSet[int]], numVariables : int, numClauses : int, comment : str) -> str:
-    output : str = ""
-    output += f"c {comment}\n"
-    output += f"p cnf {numVariables} {numClauses}\n"
+    outputList : List[str] = []
+    outputList.append(f"c {comment}")
+    outputList.append(f"p cnf {numVariables} {numClauses}")
     C : FrozenSet[int]
     for C in F:
         l : int
+        clauseStr : str = ""
         for l in sorted(C, key = lambda x : (abs(x),x)):
-            output += f"{l} "
-        output += "0\n"
-    return output
+            clauseStr += f"{l} "
+        clauseStr += "0"
+        outputList.append(clauseStr)
+    return "\n".join(outputList)
 
 """
 Parse the input formula from the formula file content and store it as a set of sets of integers.
@@ -39,6 +41,8 @@ def parseFormula(formulaFileContent : str) -> Tuple[Set[FrozenSet[int]], int, in
     literals : Set[int] = set()
     addedClauses : int = 0
     for line in formulaFileContent.split("\n"):
+        if len(line)==0:
+            continue
         if line[0]=='c':
             # Comments
             continue
@@ -252,6 +256,7 @@ def solve(inputString, n):
             return "not renamable"
         # Assignment = set of true variables.
         assignment : Set[int] = find2SAT(G, numVariables)
+        # The variables which need to be negated are exactly those which are assigned True.
         output : str = " ".join(list(map(lambda x : str(x), sorted(assignment))))
         return output
     
