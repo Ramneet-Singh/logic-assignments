@@ -1,0 +1,254 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  12pt,
+  oneside]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+  \setmathfont[]{ccmath}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={COL703 - Assignment 4},
+  colorlinks=true,
+  linkcolor={Maroon},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[a4paper,heightrounded]{geometry}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\pagestyle{headings}
+\usepackage{amsmath,amsfonts,amsthm,fancyhdr,float,fullpage,mathtools,logicproof}
+\floatplacement{figure}{H}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{lemma}{Lemma}
+\theoremstyle{definition}
+\newtheorem{remark}{Remark}
+\newtheorem{definition}{Definition}
+\newcommand\satisfies{\vDash}
+\newcommand\entails{\vDash}
+\newcommand\derives{\vdash}
+\newcommand\arrow{\rightarrow}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{\textbf{COL703 - Assignment 4}}
+    \usepackage{authblk}
+                                        \author[]{Ramneet Singh}
+                                                            \affil{2019CS50445}
+                                            \date{November 2022}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\newpage
+
+\hypertarget{question-1}{%
+\section{Question 1}\label{question-1}}
+
+We have the following three first-order logic formulas representing
+points (a), (b) and (c) given in the question: \begin{align*}
+    F_1 &:\quad \forall x ( B(x) \arrow \forall y ( \neg S(y,y) \arrow S(x,y) ) ) \\
+    F_2 &:\quad \neg \exists x \exists y ( B(x) \land S(x,y) \land S(y,y) ) \\
+    F_3 &:\quad \neg (\exists x B(x))
+\end{align*}
+
+To show \(F_1 \land F_2 \entails F_3\), we will show that the formula
+\(F_1 \land F_2 \land \neg F_3\) is unsatisfiable. First, we Skolemise
+each of the conjuncts and convert their matrices into CNF to get the
+following three formulas: \begin{align*}
+    G_1 &:\quad \forall x \forall y (\quad \neg B(x) \lor S(y,y) \lor S(x,y) \quad) \\
+    G_2 &:\quad \forall x \forall y (\quad \neg B(x) \lor \neg S(x,y) \lor \neg S(y,y) \quad) \\
+    G_3 &:\quad B(c)
+\end{align*} where \(c\) is a fresh constant symbol.
+
+The formula \(F_1 \land F_2 \land \neg F_3\) is equisatisfiable with
+\(G_1 \land G_2 \land G_3\). Thus it suffices to give a ground
+resolution refutation of \(G_1 \land G_2 \land G_3\). Now we derive
+\(\Box\) from ground instances of clauses in the respective matrices of
+the formulas \(G_1,G_2,G_3\).
+
+\begin{logicproof}{0}
+    \{ \neg B(c), S(c,c) \} & clause of $G_1$'s matrix with $[c/x][c/y]$ \\
+    \{ \neg B(c), \neg S(c,c) \} & clause of $G_2$'s matrix with $[c/x][c/y]$ \\
+    \{ \neg B(c) \} & 1,2 resolution \\
+    \{ B(c) \} & clause of $G_3$'s matrix \\
+    \Box & 3,4 resolution
+\end{logicproof}
+
+By the ground resolution theorem, \(G_1 \land G_2 \land G_3\) is
+unsatisfiable, which implies that \(F_1 \land \land F_2 \land \neg F_3\)
+is unsatisfiable. Therefore, we can conclude that
+\(F_1 \land F_2 \entails F_3\).
+
+\newpage
+
+\hypertarget{question-2}{%
+\section{Question 2}\label{question-2}}
+
+Let \(\sigma\) be a signature and \(\sim\) be a relation on
+\(\sigma\)-assignments which satisfies the following properties:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  If \(\mathcal{A} \sim \mathcal{B}\), then for every atomic formula
+  \(F\) we have \(\mathcal{A} \satisfies F\) iff
+  \(\mathcal{B} \satisfies F\).
+\item
+  If \(\mathcal{A} \sim \mathcal{B}\), then for each variable \(x\) we
+  have:
+
+  \begin{enumerate}
+  \def\labelenumii{\Alph{enumii}.}
+  \tightlist
+  \item
+    For each \(a \in U_{\mathcal{A}}\), there exists
+    \(b \in U_{\mathcal{B}}\) such that
+    \(A_{[x \;\mapsto\; a]} \sim B_{[x \;\mapsto\; b]}\).
+  \item
+    For each \(b \in U_{\mathcal{B}}\), there exists
+    \(a \in U_{\mathcal{A}}\) such that
+    \(\mathcal{A}_{[x \;\mapsto\; a]} \sim \mathcal{B}_{[x \;\mapsto\; b]}\).
+  \end{enumerate}
+\end{enumerate}
+
+We have the following theorem.
+
+\begin{theorem}
+    If $\mathcal{A} \sim \mathcal{B}$, then for every formula $F$ we have $\mathcal{A} \satisfies F$ iff $\mathcal{B} \satisfies F$.
+\end{theorem}
+\begin{proof}
+    Suppose $\mathcal{A} \sim \mathcal{B}$. We will show by induction on the structure of $F$ that for every formula $F$, $\mathcal{A} \satisfies F$ iff $\mathcal{B} \satisfies F$.
+
+    \begin{itemize}
+        \item \textbf{Base Case:} $F$ is an atomic formula. From property 1, we have $\mathcal{A} \satisfies F$ iff $\mathcal{B} \satisfies F$.
+        \item \textbf{Induction Step:} We consider the following three cases:
+        \begin{itemize}
+            \item $F = F_1 \lor F_2$. We have:
+                \begin{alignat*}{2}
+                              &\; \mathcal{A} \satisfies F && \\
+                    \text{iff}&\; \mathcal{A} \satisfies F_1 \lor F_2 && \\
+                    \text{iff}&\; \mathcal{A} \satisfies F_1 \text{ or } \mathcal{A} \satisfies F_2 &&\; \text{(defn. of } \satisfies \text{)} \\
+                    \text{iff}&\; \mathcal{B} \satisfies F_1 \text{ or } \mathcal{B} \satisfies F_2 &&\; \text{(induction hypothesis)} \\
+                    \text{iff}&\; \mathcal{B} \satisfies F_1 \lor F_2 &&\; \text{(defn. of } \satisfies \text{)} \\
+                    \text{iff}&\; \mathcal{B} \satisfies F &&
+                \end{alignat*}
+            \item $F = \neg F_1$. We have:
+                \begin{alignat*}{2}
+                              &\; \mathcal{A} \satisfies F && \\
+                    \text{iff}&\; \mathcal{A} \satisfies \neg F_1 && \\
+                    \text{iff}&\; \mathcal{A} \not\satisfies F_1 &&\; \text{(defn. of } \satisfies \text{)} \\
+                    \text{iff}&\; \mathcal{B} \not\satisfies F_1 &&\; \text{(induction hypothesis)} \\
+                    \text{iff}&\; \mathcal{B} \satisfies \neg F_1 &&\; \text{(defn. of } \satisfies \text{)} \\
+                    \text{iff}&\; \mathcal{B} \satisfies F
+                \end{alignat*}
+            \item $F = \exists x F_1$. In this case, we show that $\mathcal{A} \satisfies F$ iff $\mathcal{B} \satisfies F$ by showing both the directions separately.
+                \begin{itemize}
+                    \item \emph{(only if):} Suppose $\mathcal{A} \satisfies F$. By definition of $\satisfies$, there exists $a \in U_{\mathcal{A}}$ such that $\mathcal{A}_{[x \;\mapsto\; a]} \satisfies F_1$. From Property 2A, we know that there exists $b \in U_{\mathcal{B}}$ such that $\mathcal{A}_{[x \;\mapsto\; a]} \sim \mathcal{B}_{[x \;\mapsto\; b]}$. Given this, we can apply the induction hypothesis on $F_1$ to conclude, from $\mathcal{A}_{[x \;\mapsto\; a]} \satisfies F_1$, that $\mathcal{B}_{[x \;\mapsto\; b]} \satisfies F_1$. From the definition of $\satisfies$, this implies that $\mathcal{B} \satisfies \exists x F_1$. Thus $\mathcal{B} \satisfies F$.
+                    \item \emph{(if):} Suppose $\mathcal{B} \satisfies F$. By definition of $\satisfies$, there exists $b \in U_{\mathcal{B}}$ such that $\mathcal{B}_{[x \;\mapsto\; b]} \satisfies F_1$. From Property 2B, we know that there exists $a \in U_{\mathcal{A}}$ such that $\mathcal{A}_{[x \;\mapsto\; a]} \sim \mathcal{B}_{[x \;\mapsto\; b]}$. Given this, we can apply the induction hypothesis on $F_1$ to conclude, from $\mathcal{B}_{[x \;\mapsto\; b]} \satisfies F_1$, that $\mathcal{A}_{[x \;\mapsto\; a]} \satisfies F_1$. From the definition of $\satisfies$, this implies that $\mathcal{A} \satisfies \exists x F_1$. Thus $\mathcal{A} \satisfies F$.
+                \end{itemize}
+        \end{itemize}
+        Since we have shown $\mathcal{A} \satisfies F$ iff $\mathcal{B} \satisfies F$ in all the three cases and they are exhaustive, the induction step is complete.
+    \end{itemize}
+
+    From the principle of structural induction, we can conclude that for every formula $F$, $\mathcal{A} \satisfies F$ iff $\mathcal{B} \satisfies F$.
+\end{proof}
+
+\newpage
+
+\hypertarget{question-3}{%
+\section{Question 3}\label{question-3}}
+
+We have the following four first-order logic formulas representing
+points (a), (b), (c) and (d) given in the question: \begin{align*}
+    F_1 &:\quad \forall x (\; (\forall y (\; C(x,y) \arrow R(y) \;)) \arrow H(x) \;) \\
+    F_2 &:\quad \forall x (\; G(x) \arrow R(x) \;) \\
+    F_3 &:\quad \forall x (\; (\exists y (\; G(y) \land C(y,x) \;)) \arrow G(x) \;) \\
+    F_4 &:\quad \forall x (\; G(x) \arrow H(x) \;)
+\end{align*}
+
+To show \(F_1 \land F_2 \land F_3 \entails F_4\), we will show that
+\(F_1 \land F_2 \land F_3 \land \neg F_4\) is unsatisfiable. Skolemising
+each of the conjuncts and converting their matrices to CNF, we get the
+following formulas. \begin{align*}
+    G_1 &:\quad \forall x (\; (C(x,f(x)) \lor H(x)) \;\land\; (\neg R(f(x)) \lor H(x)) \;) \\
+    G_2 &:\quad \forall x (\; \neg G(x) \lor R(x) \;) \\
+    G_3 &:\quad \forall x \forall y(\; \neg G(y) \lor \neg C(y,x) \lor G(x) \;) \\
+    G_4 &:\quad G(c) \;\land\; \neg H(c)
+\end{align*} where \(f\) is a fresh function symbol and \(c\) is a fresh
+constant symbol.
+
+The formula \(G_1 \land G_2 \land G_3 \land G_4\) is equisatisfiable
+with \(F_1 \land F_2 \land F_3 \land \neg F_4\). Thus it suffices to
+show a predicate logic resolution refutation of
+\(G_1 \land G_2 \land G_3 \land G_4\). The proof is as follows. Note
+that we subscript the variables in line \(k\) with \(k\) to ensure we
+always resolve clauses with disjoint sets of variables.
+
+\begin{logicproof}
+    \{\, \neg G(y_1), \neg C(y_1,x_1), G(x_1) \,\} & clause of $G_3$ \\
+    \{\, \neg G(x_2), R(x_2) \,\} & clause of $G_2$ \\
+    \{\, \neg G(y_3), \neg C(y_3,x_3), R(x_3) \,\} & 1,2 Res. with $D_1 = \{G(x_1)\}, D_2 = \{\neg G(x_2)\}, \theta=[x_1/x_2][x_3/x_1][y_3/y_1]$
+\end{logicproof}
+
+\end{document}
